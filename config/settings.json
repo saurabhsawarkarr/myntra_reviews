@@ -1,0 +1,31 @@
+{
+  "collection": {
+    "play_store_max_reviews": 50000,
+    "app_store_max_reviews": 50000,
+    "reddit_max_posts_per_query": 100,
+    "reddit_max_comments_per_post": 50
+  },
+  "cleaning": {
+    "min_text_length": 20,
+    "max_text_length": 10000
+  },
+  "relevance": {
+    "keyword_weight": 0.4,
+    "semantic_weight": 0.6,
+    "relevance_threshold": 0.45,
+    "embedding_model": "all-MiniLM-L6-v2"
+  },
+  "ai_extraction": {
+    "groq_model": "llama-3-70b-8192",
+    "batch_size": 10,
+    "max_retries": 3,
+    "retry_delay_seconds": 5
+  },
+  "scoring": {
+    "frequency_weight": 0.25,
+    "severity_weight": 0.25,
+    "workaround_weight": 0.20,
+    "metric_relevance_weight": 0.20,
+    "evidence_strength_weight": 0.10
+  }
+}

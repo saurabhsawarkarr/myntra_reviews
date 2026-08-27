@@ -1,0 +1,10 @@
+.env
+venv/
+data/raw/
+data/cleaned/
+data/normalized/
+data/relevant/
+data/extracted/
+__pycache__/
+*.pyc
+reports/output/

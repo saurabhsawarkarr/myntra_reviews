@@ -1,0 +1,8 @@
+{
+  "wishlist_saving": ["wishlist", "wish list", "saved", "save for later", "shortlisted", "shortlist", "kept aside", "bookmarked", "saved items"],
+  "purchase_intent": ["wanted to buy", "planning to buy", "thinking of buying", "buy later", "purchase later"],
+  "purchase_delay": ["wait", "waiting", "postpone", "later", "couldn't decide", "not buying yet", "holding off"],
+  "uncertainty": ["confused", "not sure", "uncertain", "doubt", "couldn't decide", "can't decide", "unsure"],
+  "fashion_signals": ["size", "fit", "quality", "material", "colour", "color", "style", "look", "price", "discount", "sale", "review", "fabric"],
+  "external_info": ["youtube", "instagram", "reddit", "asked friends", "other website", "offline store", "checked online"]
+}

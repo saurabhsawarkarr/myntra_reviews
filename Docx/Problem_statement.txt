@@ -1,0 +1,1451 @@
+# Detailed Problem Statement & Project Build Specification
+
+## AI-Powered Discovery Engine for Understanding Wishlist-to-Purchase Drop-Off in Online Fashion Shopping
+
+## 1. Project Overview
+
+In online fashion shopping, users frequently discover products they like and add them to a wishlist or save them for later. However, **product interest does not always convert into a purchase**.
+
+A user may save a product because they genuinely intend to buy it, but later postpone or abandon the purchase due to uncertainty around size, fit, quality, price, styling, reviews, alternatives, or other factors. In other cases, the wishlist may simply function as a bookmarking or comparison tool rather than representing genuine purchase intent.
+
+The core business outcome this project aims to understand is:
+
+> **How can we increase the conversion of users who add fashion products to their wishlist into users who purchase those products within 30 days?**
+
+Before designing any solution, we need to understand the underlying reasons behind this drop-off.
+
+Therefore, this project will build an **AI-Powered Discovery Engine** that collects publicly available user feedback and discussions, processes them at scale, identifies relevant behavioral signals, discovers recurring patterns, and generates evidence-backed opportunity areas.
+
+The initial product focus will be **Myntra**.
+
+---
+
+# 2. Core Problem
+
+Currently, information about users' online fashion shopping behavior is fragmented across multiple public platforms.
+
+Users express their experiences through:
+
+* Google Play Store reviews
+* Apple App Store reviews
+* Reddit posts and comments
+* Other fashion and shopping communities
+
+For the **first version of this project**, we will deliberately limit our data sources to:
+
+```text
+1. Google Play Store
+2. Apple App Store
+3. Reddit
+```
+
+Additional sources such as fashion communities, YouTube comments, social media, product reviews, and Q&A will be added only after the initial pipeline is working successfully.
+
+The challenge is not simply to collect reviews.
+
+A traditional review analysis system might produce:
+
+```text
+Most common complaint:
+Size
+
+Second:
+Price
+
+Third:
+Delivery
+```
+
+This does not answer our actual product problem.
+
+We need to understand:
+
+```text
+Why was the user interested?
+
+Did they genuinely intend to purchase?
+
+Why did they save the product?
+
+What uncertainty remained?
+
+What prevented the purchase?
+
+What did they do to resolve the uncertainty?
+
+Did they postpone, abandon,
+or purchase an alternative?
+```
+
+Therefore, the system must go beyond:
+
+```text
+Scraping
++
+Sentiment Analysis
++
+Review Summarization
+```
+
+and instead perform:
+
+```text
+Data Collection
+        ↓
+Cleaning & Normalization
+        ↓
+Relevance Filtering
+        ↓
+AI-Powered Information Extraction
+        ↓
+Signal Aggregation
+        ↓
+Pattern Discovery
+        ↓
+Opportunity Identification
+        ↓
+Opportunity Comparison
+```
+
+---
+
+# 3. Primary Research Question
+
+The central question this project will investigate is:
+
+> **Why do users add or save fashion products but fail to purchase them, and what recurring unmet needs or opportunity areas may influence the conversion from product interest to purchase?**
+
+More specifically, the system should help investigate:
+
+### Wishlist behavior
+
+* Why do users save fashion products?
+* Is the wishlist used for genuine purchase intent?
+* Is it used for bookmarking?
+* Is it used for comparison?
+* Is it used to wait for discounts or sales?
+
+### Purchase blockers
+
+* What prevents users from purchasing products they are interested in?
+* What causes users to postpone a purchase?
+* What uncertainties remain after identifying a product they like?
+
+### Decision-making behavior
+
+* How do users compare multiple products?
+* What information do they seek before making a purchase?
+* What information do they search for outside the platform?
+* What workarounds do they use?
+
+### Potential uncertainty areas
+
+The system will investigate signals related to:
+
+```text
+Size
+Fit
+Quality
+Material
+Actual appearance
+Styling
+Price
+Discounts
+Product reviews
+Trust
+Alternatives
+Comparison
+Social validation
+```
+
+These should **not be treated as assumptions or predetermined problems**.
+
+They are only areas the discovery engine should be capable of detecting.
+
+---
+
+# 4. Project Goal
+
+The goal is to build a **modular, low-cost AI-powered research pipeline** that can analyze a large number of public conversations and convert them into structured product insights.
+
+The system should ultimately help us move from:
+
+```text
+RAW USER FEEDBACK
+        ↓
+"What are users saying?"
+```
+
+to:
+
+```text
+STRUCTURED SIGNALS
+        ↓
+"What are users experiencing and doing?"
+```
+
+to:
+
+```text
+RECURRING PATTERNS
+        ↓
+"What problems consistently appear?"
+```
+
+to:
+
+```text
+OPPORTUNITY AREAS
+        ↓
+"What unmet needs may be worth solving?"
+```
+
+to:
+
+```text
+PRIORITIZED RESEARCH HYPOTHESES
+        ↓
+"What should we validate through surveys and interviews?"
+```
+
+---
+
+# 5. Project Constraints
+
+A major requirement for this project is:
+
+> **The project should be built using free or open-source tools wherever possible.**
+
+We do not want to spend money on:
+
+* Paid scraping platforms
+* Paid databases
+* Paid data processing tools
+* Paid analytics platforms
+* Paid vector databases
+
+The project should initially run using:
+
+```text
+Python
++
+Free/open-source libraries
++
+Local storage
++
+Reddit API
++
+Public App Store data sources
++
+Free LLM API tier where required
+```
+
+The only external AI service planned initially is:
+
+> **Groq API using its available free tier**
+
+This should be used carefully and only where an LLM provides clear value.
+
+---
+
+# 6. High-Level System Architecture
+
+The complete system will eventually work as follows:
+
+```text
+                 DATA SOURCES
+
+        ┌────────────┼────────────┐
+        ↓            ↓            ↓
+
+   GOOGLE PLAY    APPLE APP      REDDIT
+      STORE         STORE         API
+
+        │            │            │
+        └────────────┼────────────┘
+                     ↓
+
+             PHASE 1: COLLECTION
+
+                     ↓
+
+                RAW DATA STORE
+
+                     ↓
+
+       PHASE 2: CLEANING & NORMALIZATION
+
+                     ↓
+
+             UNIFIED DATASET
+
+                     ↓
+
+       PHASE 3: RELEVANCE FILTERING
+
+                     ↓
+
+            RELEVANT DATASET
+
+                     ↓
+
+       PHASE 4: AI INFORMATION EXTRACTION
+
+                     ↓
+
+            STRUCTURED USER SIGNALS
+
+                     ↓
+
+          PHASE 5: PATTERN DISCOVERY
+
+                     ↓
+
+         PHASE 6: OPPORTUNITY DISCOVERY
+
+                     ↓
+
+       PHASE 7: QUANTIFY & COMPARE
+
+                     ↓
+
+           DISCOVERY REPORT / DASHBOARD
+
+                     ↓
+
+          SURVEYS + USER INTERVIEWS
+
+                     ↓
+
+          VALIDATED PRODUCT PROBLEM
+
+                     ↓
+
+            IDEATION + SOLUTION
+```
+
+---
+
+# PHASE 0 — Project Setup and Architecture
+
+## Objective
+
+Create a modular architecture that allows us to add new data sources in the future without changing the entire system.
+
+Initial project structure:
+
+```text
+ai-discovery-engine/
+
+│
+├── collectors/
+│   ├── play_store/
+│   ├── app_store/
+│   └── reddit/
+│
+├── processors/
+│   ├── cleaning/
+│   ├── normalization/
+│   └── relevance/
+│
+├── ai/
+│   ├── extractor/
+│   └── prompts/
+│
+├── analysis/
+│   ├── signals/
+│   ├── patterns/
+│   └── opportunities/
+│
+├── data/
+│   ├── raw/
+│   ├── cleaned/
+│   ├── normalized/
+│   ├── relevant/
+│   └── extracted/
+│
+├── reports/
+│
+├── config/
+│
+└── main.py
+```
+
+Each module should have a single responsibility.
+
+For example:
+
+```text
+Collectors
+→ Collect data
+
+Processors
+→ Clean and prepare data
+
+AI Extractor
+→ Understand conversations
+
+Analysis
+→ Find patterns and opportunities
+```
+
+---
+
+# PHASE 1 — Multi-Source Data Collection
+
+## Objective
+
+Collect raw public feedback and discussions from the three initial sources.
+
+```text
+Google Play Store
+        +
+Apple App Store
+        +
+Reddit API
+```
+
+At this stage:
+
+> **Do not perform AI analysis.**
+
+The responsibility of this phase is only:
+
+```text
+CONNECT
+    ↓
+COLLECT
+    ↓
+VALIDATE BASIC FIELDS
+    ↓
+STORE RAW DATA
+```
+
+---
+
+## Phase 1A — Google Play Store Collector
+
+### Objective
+
+Collect publicly available reviews for the Myntra application.
+
+The collector should retrieve as much relevant historical review data as reasonably available.
+
+Each record should preserve fields such as:
+
+```text
+review_id
+source
+platform
+rating
+review_text
+review_date
+user_name
+app_version
+thumbs_up_count
+```
+
+Where fields are unavailable, they should remain null rather than being fabricated.
+
+Example:
+
+```json
+{
+  "id": "play_123456",
+
+  "source": "google_play",
+
+  "source_type": "app_review",
+
+  "platform": "Myntra",
+
+  "text": "I saved the product but wasn't sure about the size.",
+
+  "rating": 3,
+
+  "date": "2026-08-20",
+
+  "metadata": {
+    "app_version": "5.0",
+    "thumbs_up_count": 2
+  }
+}
+```
+
+Raw output:
+
+```text
+data/raw/play_store_reviews.json
+```
+
+---
+
+# Phase 1B — Apple App Store Collector
+
+## Objective
+
+Collect publicly available Myntra app reviews from the Apple App Store.
+
+Each record should capture:
+
+```text
+review_id
+source
+platform
+rating
+title
+review_text
+date
+author
+app_version
+```
+
+Example:
+
+```json
+{
+  "id": "app_123456",
+
+  "source": "apple_app_store",
+
+  "source_type": "app_review",
+
+  "platform": "Myntra",
+
+  "title": "Good app but confusing sizing",
+
+  "text": "I like the products but I can never decide which size to buy.",
+
+  "rating": 3,
+
+  "date": "2026-08-20",
+
+  "metadata": {}
+}
+```
+
+Raw output:
+
+```text
+data/raw/app_store_reviews.json
+```
+
+---
+
+# Phase 1C — Reddit Collector
+
+## Important Requirement
+
+For Reddit, the project will use the **Reddit API**, rather than relying on uncontrolled HTML scraping.
+
+The Reddit collector should:
+
+```text
+Authenticate using Reddit API credentials
+        ↓
+Search relevant posts
+        ↓
+Retrieve relevant post metadata
+        ↓
+Retrieve comments
+        ↓
+Preserve thread relationships
+        ↓
+Store raw data
+```
+
+The Reddit API credentials should never be hardcoded.
+
+Use environment variables:
+
+```text
+REDDIT_CLIENT_ID
+REDDIT_CLIENT_SECRET
+REDDIT_USER_AGENT
+```
+
+---
+
+## Reddit Search Strategy
+
+The collector should not simply download random posts from one subreddit.
+
+It should search using a configurable list of research queries.
+
+Initial queries:
+
+```text
+Myntra
+
+Myntra wishlist
+
+Myntra saved items
+
+Myntra shopping experience
+
+Myntra size
+
+Myntra fit
+
+Myntra quality
+
+Myntra reviews
+
+Myntra alternatives
+
+Myntra discount
+
+online fashion shopping India
+
+buying clothes online India
+
+fashion shopping size issue
+
+online shopping fit problem
+```
+
+These queries should be stored in configuration rather than hardcoded.
+
+Example:
+
+```text
+config/search_queries.json
+```
+
+---
+
+## Subreddit Strategy
+
+The collector should also support configurable target subreddits.
+
+Examples may include relevant communities related to:
+
+```text
+Indian fashion
+Indian shopping
+Myntra
+Online shopping
+Fashion advice
+Clothing recommendations
+```
+
+The exact subreddit list should be configurable:
+
+```text
+config/subreddits.json
+```
+
+The system should not assume every result from these communities is relevant.
+
+Relevance filtering happens later.
+
+---
+
+## Reddit Data Structure
+
+Posts and comments should preserve their relationship.
+
+Example:
+
+```json
+{
+  "id": "reddit_post_123",
+
+  "source": "reddit",
+
+  "source_type": "reddit_post",
+
+  "title": "Question about buying clothes from Myntra",
+
+  "text": "I have shortlisted several dresses but can't decide.",
+
+  "date": "2026-08-20",
+
+  "url": "source_url",
+
+  "metadata": {
+    "subreddit": "example_subreddit",
+    "score": 42,
+    "num_comments": 15
+  }
+}
+```
+
+Comments should contain:
+
+```json
+{
+  "id": "reddit_comment_456",
+
+  "source": "reddit",
+
+  "source_type": "reddit_comment",
+
+  "parent_id": "reddit_post_123",
+
+  "text": "I usually check Instagram or YouTube before buying.",
+
+  "date": "2026-08-20",
+
+  "url": "source_url",
+
+  "metadata": {
+    "subreddit": "example_subreddit",
+    "score": 10
+  }
+}
+```
+
+This is important because comments may contain the strongest behavioral insights.
+
+---
+
+# Phase 1 Output
+
+At the end of Phase 1:
+
+```text
+data/raw/
+
+├── play_store_reviews.json
+│
+├── app_store_reviews.json
+│
+└── reddit_data.json
+```
+
+The system should also generate a basic collection summary:
+
+```text
+Google Play reviews collected: X
+
+Apple App Store reviews collected: X
+
+Reddit posts collected: X
+
+Reddit comments collected: X
+
+Collection errors: X
+
+Duplicate records skipped: X
+```
+
+---
+
+# PHASE 2 — Cleaning and Normalization
+
+## Objective
+
+Convert the raw data from different sources into a clean and consistent dataset.
+
+No LLM is required in this phase.
+
+The entire phase should run using:
+
+```text
+Python
++
+Pandas
++
+Regex
++
+Standard Python libraries
+```
+
+---
+
+## Cleaning Tasks
+
+The cleaning pipeline should:
+
+```text
+Remove duplicate records
+
+Remove empty records
+
+Normalize whitespace
+
+Remove unnecessary HTML
+
+Handle null values
+
+Standardize dates
+
+Standardize source names
+
+Remove obvious spam where detectable
+
+Remove extremely short or meaningless records
+
+Preserve original text
+```
+
+Important:
+
+> Never overwrite the raw source data.
+
+The raw data must remain unchanged.
+
+The pipeline should create new processed files.
+
+---
+
+## Canonical Data Schema
+
+All cleaned records should eventually follow one common schema.
+
+```json
+{
+  "id": "unique_record_id",
+
+  "source": "reddit",
+
+  "source_type": "reddit_comment",
+
+  "platform_mentioned": "Myntra",
+
+  "title": null,
+
+  "text": "Actual cleaned user feedback",
+
+  "rating": null,
+
+  "date": "2026-08-20",
+
+  "url": "source_url",
+
+  "metadata": {}
+}
+```
+
+This allows the rest of the system to work independently of the original source.
+
+The output:
+
+```text
+data/normalized/unified_dataset.json
+```
+
+---
+
+# PHASE 3 — Relevance Filtering
+
+## Objective
+
+From thousands of records, identify conversations that are potentially relevant to our research problem.
+
+We do not need an LLM as the first layer.
+
+The relevance system should use a multi-stage approach.
+
+---
+
+## Layer 1 — Rule and Keyword Filtering
+
+Identify signals related to:
+
+### Wishlist and saving
+
+```text
+wishlist
+wish list
+saved
+save for later
+shortlisted
+shortlist
+kept aside
+bookmarked
+```
+
+### Purchase intent
+
+```text
+wanted to buy
+planning to buy
+thinking of buying
+buy later
+purchase later
+```
+
+### Purchase delay
+
+```text
+wait
+waiting
+postpone
+later
+couldn't decide
+not buying yet
+```
+
+### Uncertainty
+
+```text
+confused
+not sure
+uncertain
+doubt
+couldn't decide
+```
+
+### Fashion decision signals
+
+```text
+size
+fit
+quality
+material
+colour
+color
+style
+look
+price
+discount
+sale
+review
+```
+
+### External information behavior
+
+```text
+YouTube
+Instagram
+Reddit
+asked friends
+other website
+offline store
+```
+
+---
+
+## Layer 2 — Semantic Filtering
+
+Keyword filtering alone will miss relevant statements.
+
+Example:
+
+> "I kept three dresses aside until I figured out which one would suit me."
+
+This may not contain the word "wishlist."
+
+Therefore, use a free local embedding model to identify semantic similarity.
+
+Possible implementation:
+
+```text
+Sentence Transformers
+```
+
+The system should compare records against semantic research concepts such as:
+
+```text
+Saving products for later
+
+Intention to purchase
+
+Difficulty deciding
+
+Purchase uncertainty
+
+Comparing fashion products
+
+Searching outside the shopping platform
+
+Delaying a fashion purchase
+```
+
+The output:
+
+```text
+data/relevant/relevant_records.json
+```
+
+Each record should include:
+
+```text
+relevance_score
+relevance_reason
+```
+
+Example:
+
+```json
+{
+  "id": "reddit_123",
+
+  "text": "I kept three dresses aside until I figured out which one would suit me.",
+
+  "keyword_score": 0.2,
+
+  "semantic_score": 0.88,
+
+  "final_relevance_score": 0.82
+}
+```
+
+---
+
+# PHASE 4 — AI-Powered Information Extraction
+
+## Objective
+
+Use an LLM only after filtering the dataset.
+
+The initial LLM provider will be:
+
+> **Groq API using the available free tier**
+
+The Groq credentials should also be stored securely:
+
+```text
+GROQ_API_KEY
+```
+
+The API key should not be hardcoded.
+
+---
+
+## Why an LLM is Required
+
+A keyword system can identify words.
+
+For example:
+
+```text
+size
+review
+Instagram
+```
+
+But it cannot reliably determine the user's behavioral chain.
+
+Example:
+
+> "I liked the dress, but the reviews were confusing. I wasn't sure about the size, so I checked Instagram reels before deciding."
+
+The LLM should extract:
+
+```text
+Motivation:
+Liked the dress
+
+Uncertainty:
+Size
+
+Problem:
+Conflicting or confusing reviews
+
+User Action:
+Checked Instagram
+
+External Information:
+Instagram reels
+
+Outcome:
+Unknown / postponed / purchased
+```
+
+---
+
+## Structured Extraction
+
+The LLM must return structured JSON.
+
+Example:
+
+```json
+{
+  "is_relevant": true,
+
+  "wishlist_behavior": {
+    "detected": true,
+    "type": "potential_purchase",
+    "confidence": 0.85
+  },
+
+  "motivation": [
+    "liked_design"
+  ],
+
+  "uncertainties": [
+    "size",
+    "fit"
+  ],
+
+  "purchase_blockers": [
+    "low_fit_confidence"
+  ],
+
+  "user_actions": [
+    "searched_external_information"
+  ],
+
+  "external_information_sources": [
+    "Instagram"
+  ],
+
+  "outcome": "unknown",
+
+  "evidence_spans": [
+    "wasn't sure about the size",
+    "checked Instagram reels"
+  ]
+}
+```
+
+---
+
+## Critical AI Rules
+
+The LLM must:
+
+```text
+Only extract information explicitly
+stated or strongly supported by the text.
+
+Use "unknown" when information
+is not available.
+
+Do not invent user motivations.
+
+Do not assume that every saved
+product represents purchase intent.
+
+Do not classify sentiment unless
+it directly contributes to the research question.
+```
+
+This is important for research quality.
+
+---
+
+# PHASE 5 — Signal Aggregation and Pattern Discovery
+
+## Objective
+
+Combine extracted signals across all relevant conversations.
+
+For example:
+
+```text
+Record 1
+→ Size uncertainty
+
+Record 2
+→ Fit uncertainty
+
+Record 3
+→ Conflicting reviews
+
+Record 4
+→ Checked YouTube
+```
+
+The system should analyze:
+
+### Frequency
+
+How often does each signal appear?
+
+### Co-occurrence
+
+Which signals appear together?
+
+Example:
+
+```text
+Size uncertainty
++
+Fit uncertainty
++
+Confusing reviews
+```
+
+### Behavioral chains
+
+For example:
+
+```text
+Interest
+    ↓
+Uncertainty
+    ↓
+External search
+    ↓
+Purchase delay
+```
+
+### Source comparison
+
+Does the same pattern appear in:
+
+```text
+Play Store?
+App Store?
+Reddit?
+```
+
+---
+
+# PHASE 6 — Opportunity Discovery
+
+## Objective
+
+Convert repeated signals into potential underlying unmet needs.
+
+We do not want the final result to be:
+
+```text
+Problem:
+Size
+```
+
+Instead:
+
+```text
+SIGNALS
+
+Size uncertainty
+Fit uncertainty
+Conflicting reviews
+External try-on research
+
+        ↓
+
+POTENTIAL UNDERLYING NEED
+
+Users lack sufficient confidence to
+predict how a fashion product will
+fit and look before purchasing.
+```
+
+Another example:
+
+```text
+SIGNALS
+
+Saved products
+Waiting for sales
+Checking other platforms
+Repeated price checking
+
+        ↓
+
+POTENTIAL OPPORTUNITY
+
+Users lack support in deciding when
+to purchase products they are
+interested in but are postponing.
+```
+
+These opportunity statements should be marked as:
+
+> **Evidence-backed hypotheses**
+
+They are not final conclusions until validated through primary research.
+
+---
+
+# PHASE 7 — Quantify and Compare Opportunity Areas
+
+Each opportunity should be evaluated using five dimensions.
+
+## 1. Frequency
+
+```text
+Number of relevant records
+supporting opportunity
+─────────────────────────
+Total relevant records
+```
+
+---
+
+## 2. Severity
+
+Estimate how strongly the issue affects behavior.
+
+Example:
+
+```text
+1 → Minor inconvenience
+
+2 → Some friction
+
+3 → Requires additional effort
+
+4 → Causes purchase delay
+
+5 → Causes abandonment or
+    alternative purchase
+```
+
+---
+
+## 3. Workaround Rate
+
+Measure whether users take additional actions because of the problem.
+
+Examples:
+
+```text
+Search YouTube
+
+Check Instagram
+
+Ask friends
+
+Compare other websites
+
+Visit offline stores
+
+Order multiple sizes
+
+Purchase alternatives
+```
+
+Calculate:
+
+```text
+Users who used workaround
+──────────────────────────
+Users experiencing issue
+```
+
+---
+
+## 4. Business Metric Relevance
+
+Estimate the strength of the observed relationship with:
+
+```text
+PRODUCT INTEREST
+        ↓
+WISHLIST / SAVE
+        ↓
+BLOCKER
+        ↓
+DELAY OR ABANDONMENT
+```
+
+The system should distinguish between:
+
+```text
+Weak evidence:
+User mentioned price
+
+Stronger evidence:
+User wanted product
+→ waited because of price
+→ did not purchase
+```
+
+---
+
+## 5. Evidence Strength
+
+Measure whether the pattern appears:
+
+```text
+Single record
+        ↓
+Multiple records
+        ↓
+Repeated behavior
+        ↓
+Across multiple sources
+```
+
+---
+
+# Opportunity Comparison Output
+
+Example structure:
+
+| Opportunity        | Frequency | Severity | Workaround Rate | Metric Relevance | Evidence Strength |
+| ------------------ | --------: | -------: | --------------: | ---------------: | ----------------: |
+| Fit confidence     |      High |     High |            High |             High |              High |
+| Price timing       |      High |   Medium |          Medium |             High |              High |
+| Product comparison |    Medium |     High |            High |      Medium/High |            Medium |
+| Styling confidence |    Medium |   Medium |            High |           Medium |            Medium |
+
+The actual system should calculate these values from the data.
+
+---
+
+# PHASE 8 — Discovery Report
+
+The final system should generate a research report.
+
+Example:
+
+```text
+AI DISCOVERY ENGINE REPORT
+
+=================================
+
+DATASET SUMMARY
+
+Total records collected: X
+
+Google Play Store: X
+
+Apple App Store: X
+
+Reddit Posts: X
+
+Reddit Comments: X
+
+Relevant records: X
+
+=================================
+
+TOP OPPORTUNITY AREAS
+
+1. Fit Confidence
+
+Evidence:
+X relevant conversations
+
+Severity:
+X / 5
+
+Workaround Rate:
+X%
+
+Metric Relevance:
+High
+
+Evidence Sources:
+Play Store + Reddit
+
+Key Behavioral Pattern:
+
+Product Interest
+      ↓
+Size/Fit Uncertainty
+      ↓
+External Information Search
+      ↓
+Purchase Delay
+
+=================================
+
+2. Price Decision Support
+
+...
+```
+
+The report should also include:
+
+* Supporting evidence
+* Representative user statements
+* Source distribution
+* Behavioral patterns
+* Segment differences where detectable
+* Opportunity scores
+* Limitations
+* Research hypotheses for interviews and surveys
+
+---
+
