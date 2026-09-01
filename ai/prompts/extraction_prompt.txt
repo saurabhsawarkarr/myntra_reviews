@@ -1,0 +1,79 @@
+Analyze the following user review or post about online fashion shopping on Myntra.
+
+BUSINESS QUESTION: We are investigating user behaviors, motivations, uncertainties, friction points, workarounds, and decision patterns that may influence the journey from product interest/wishlist to purchase. 
+
+TEXT:
+{text}
+
+STEP 1 — RELEVANCE CHECK:
+First decide: does this text contain ANY signal about the user's decision-making process around fashion interest, saving, shortlisting, or purchasing? Generic praise ("great app", "good products") with no behavioral detail = not relevant.
+
+STEP 2 — BEHAVIORAL EXTRACTION:
+If relevant, extract the following dynamically from the text. DO NOT FORCE predefined categories (like size, fit, quality, price). Let completely new patterns emerge from the data. For EVERY field, only populate from direct textual evidence. Use "unknown" if absent.
+
+WISHLIST / SAVE BEHAVIOR:
+- Did the user describe saving, wishlisting, or shortlisting a product?
+- If yes, what was their STATED reason? (Extract dynamically, e.g., "waiting for a price drop", "comparing to flipkart", "saving for winter". Do not assume — only classify if they explain it)
+- Evidence: quote the exact phrase that supports this
+
+PRE-PURCHASE UNCERTAINTY (only if user describes uncertainty BEFORE buying):
+- What was the user uncertain about BEFORE purchasing or deciding? (Extract dynamic themes, e.g., "whether the color will bleed", "unsure about sizing chart", etc)
+- Evidence: quote the exact phrase
+
+PURCHASE BLOCKER / FRICTION (only if user explicitly describes something that stopped or delayed purchase):
+- A blocker must be explicitly described as causing hesitation, delay, or abandonment — not just mentioned. Extract the dynamic blocker (e.g. "no return policy on sale items", "reviews said it shrinks").
+- Evidence: quote the exact phrase
+
+USER WORKAROUNDS (only if user describes performing these actions):
+- Did the user actively go somewhere else or do something to resolve uncertainty? Extract the dynamic action (e.g., "watched a youtube haul", "went to shoppers stop to smell it").
+- Evidence: quote the exact phrase
+
+PURCHASE OUTCOME (only if explicitly described):
+- What happened? (e.g. purchased, postponed, abandoned, bought on amazon instead, etc)
+
+PURCHASE STAGE:
+- Is this text primarily about: pre_purchase | post_purchase | unknown
+- (Pre = uncertainty/decision before buying. Post = experience after receiving product.)
+
+CONFIDENCE NOTES:
+- For each field, assign: Direct | Strong Inference | Unknown
+- Use "Strong Inference" when the text clearly implies a behavior or intention, even without explicit vocabulary.
+- If the text is too short or generic to yield reliable extraction, say so in evidence_quality_note
+
+Return this exact JSON structure (populate arrays dynamically with as many items as supported by text, or empty array if none):
+{
+  "is_relevant": true/false,
+  "relevance_reason": "one sentence explaining why this is or is not relevant",
+  "purchase_stage": "pre_purchase|post_purchase|unknown",
+  "wishlist_behavior": {
+    "detected": true/false,
+    "stated_reason": "dynamic reason extracted from text or unknown",
+    "evidence": "exact quote from text or null",
+    "evidence_type": "Direct|Strong Inference|Unknown"
+  },
+  "pre_purchase_uncertainties": [
+    {
+      "theme": "dynamic uncertainty extracted",
+      "evidence": "exact quote from text",
+      "evidence_type": "Direct|Strong Inference|Unknown"
+    }
+  ],
+  "purchase_blockers": [
+    {
+      "blocker": "dynamic friction extracted",
+      "causal_link": "explicit|associated|potential|none",
+      "evidence": "exact quote from text",
+      "evidence_type": "Direct|Strong Inference|Unknown"
+    }
+  ],
+  "user_workarounds": [
+    {
+      "action": "dynamic behavior extracted",
+      "evidence": "exact quote from text",
+      "evidence_type": "Direct|Strong Inference|Unknown"
+    }
+  ],
+  "outcome": "dynamic outcome extracted or unknown",
+  "outcome_evidence": "exact quote from text or null",
+  "evidence_quality_note": "brief note on overall reliability"
+}

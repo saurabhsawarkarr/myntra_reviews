@@ -1,0 +1,336 @@
+{
+  "generated_at": "2026-09-01T16:49:16.077956",
+  "pipeline_summary": {
+    "total_raw": 531009,
+    "total_cleaned": 522319,
+    "negative_reviews": 97964,
+    "positive_reviews": 384376,
+    "neutral_reviews": 9896,
+    "opportunities_found": 2,
+    "sources": {
+      "play_store": 500000,
+      "app_store": 200,
+      "reddit": 3950,
+      "youtube": 26859
+    }
+  },
+  "sources": {
+    "Google Play Store": 500000,
+    "Apple App Store": 200,
+    "Reddit": 3950,
+    "YouTube": 26859
+  },
+  "rating_distribution": {
+    "labels": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "values": [
+      90302,
+      7662,
+      9896,
+      41875,
+      342501
+    ]
+  },
+  "sentiment": {
+    "positive": 384376,
+    "neutral": 9896,
+    "negative": 97964
+  },
+  "user_segments": [
+    {
+      "name": "Quality Skeptics",
+      "count": 43432,
+      "percentage": 53.9
+    },
+    {
+      "name": "Price-Sensitive Waiters",
+      "count": 12798,
+      "percentage": 15.9
+    },
+    {
+      "name": "Fit Uncertainty",
+      "count": 11700,
+      "percentage": 14.5
+    },
+    {
+      "name": "Comparison Shoppers",
+      "count": 7907,
+      "percentage": 9.8
+    },
+    {
+      "name": "Validation Seekers",
+      "count": 4691,
+      "percentage": 5.8
+    }
+  ],
+  "top_complaint_blockers": [
+    {
+      "blocker": "Return / Refund",
+      "count": 37380,
+      "percentage": 38.2
+    },
+    {
+      "blocker": "Delivery Issues",
+      "count": 28162,
+      "percentage": 28.7
+    },
+    {
+      "blocker": "Customer Support",
+      "count": 18481,
+      "percentage": 18.9
+    },
+    {
+      "blocker": "Order Cancellation",
+      "count": 13618,
+      "percentage": 13.9
+    },
+    {
+      "blocker": "Late Delivery",
+      "count": 8711,
+      "percentage": 8.9
+    },
+    {
+      "blocker": "Wrong Product",
+      "count": 8260,
+      "percentage": 8.4
+    },
+    {
+      "blocker": "Product Quality",
+      "count": 7699,
+      "percentage": 7.9
+    },
+    {
+      "blocker": "Price / Discount",
+      "count": 7481,
+      "percentage": 7.6
+    },
+    {
+      "blocker": "Size / Fit Issue",
+      "count": 5031,
+      "percentage": 5.1
+    },
+    {
+      "blocker": "Fake Product",
+      "count": 3818,
+      "percentage": 3.9
+    }
+  ],
+  "wishlist_behaviors": [
+    {
+      "category": "Quality / Material Doubt",
+      "count": 70480,
+      "percentage": 56.0
+    },
+    {
+      "category": "Wait for Discount / Sale",
+      "count": 21818,
+      "percentage": 17.3
+    },
+    {
+      "category": "External Validation",
+      "count": 12331,
+      "percentage": 9.8
+    },
+    {
+      "category": "Size / Fit Hesitation",
+      "count": 11819,
+      "percentage": 9.4
+    },
+    {
+      "category": "Price Comparison",
+      "count": 9459,
+      "percentage": 7.5
+    }
+  ],
+  "postponed_reasons": [
+    {
+      "reason": "Quality uncertainty",
+      "count": 43689,
+      "percentage": 45.6
+    },
+    {
+      "reason": "Trust / Reviews",
+      "count": 19748,
+      "percentage": 20.6
+    },
+    {
+      "reason": "Size / Fit Doubt",
+      "count": 11819,
+      "percentage": 12.3
+    },
+    {
+      "reason": "Comparison shopping",
+      "count": 9459,
+      "percentage": 9.9
+    },
+    {
+      "reason": "Styling uncertainty",
+      "count": 8728,
+      "percentage": 9.1
+    },
+    {
+      "reason": "Price uncertainty",
+      "count": 1452,
+      "percentage": 1.5
+    },
+    {
+      "reason": "Occasion / timing",
+      "count": 955,
+      "percentage": 1.0
+    }
+  ],
+  "external_info_seeking": [
+    {
+      "platform": "Other Shopping Apps",
+      "reason": "Price & variety comparison",
+      "icon": "🛍️",
+      "count": 8923,
+      "percentage": 39.0
+    },
+    {
+      "platform": "Friends / Family",
+      "reason": "Seeking trusted opinions",
+      "icon": "💬",
+      "count": 5303,
+      "percentage": 23.2
+    },
+    {
+      "platform": "Instagram",
+      "reason": "Styling ideas & influencers",
+      "icon": "📸",
+      "count": 4593,
+      "percentage": 20.1
+    },
+    {
+      "platform": "YouTube",
+      "reason": "Fabric & fit review videos",
+      "icon": "▶️",
+      "count": 3806,
+      "percentage": 16.6
+    },
+    {
+      "platform": "Google",
+      "reason": "General product research",
+      "icon": "🔍",
+      "count": 244,
+      "percentage": 1.1
+    }
+  ],
+  "user_journeys": [
+    {
+      "name": "The Deal Hunter",
+      "percentage": 54,
+      "steps": [
+        "Browse / Discover",
+        "Add to Wishlist",
+        "Wait for Sale / Price Drop",
+        "Purchase"
+      ]
+    },
+    {
+      "name": "The Comparison Shopper",
+      "percentage": 26,
+      "steps": [
+        "Browse / Discover",
+        "Add to Wishlist",
+        "Check Amazon / Flipkart",
+        "Purchase Abandoned"
+      ]
+    },
+    {
+      "name": "The Quality Skeptic",
+      "percentage": 20,
+      "steps": [
+        "Browse / Discover",
+        "Add to Wishlist",
+        "Seek YouTube / Instagram Proof",
+        "Removed from Wishlist"
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "name": "Stock Unavailability Waiting Loop",
+      "opportunity_statement": "Users with high intent for specific out-of-stock items engage in repetitive manual checking behaviors without effective notification or restock mechanisms, resulting in prolonged purchase delays and potential abandonment if the item does not return.",
+      "underlying_uncertainty": "When or if the desired specific item will become available again.",
+      "behavioral_consequence": "Users manually check the product page daily and leave reviews pleading for restock, indicating a high-effort, low-reward waiting state that keeps the purchase in a limbo state.",
+      "classification": "Direct Wishlist/Purchase Evidence",
+      "evidence_strength_category": "Direct",
+      "supporting_record_ids": [
+        "play_9ca41710-93e0-4a29-8417-236f18224a5b"
+      ],
+      "representative_quotes": [
+        "I like one product a lot but it's out of stock now... I waitt and checked everyday but... Hopee u read me review..."
+      ],
+      "supporting_record_count": 1,
+      "frequency_score": 0.0179,
+      "severity_avg": 2.0,
+      "workaround_rate": 0.0,
+      "metric_relevance": "Low",
+      "evidence_strength": "Single-source",
+      "composite_score": 0.067
+    },
+    {
+      "name": "Wishlist Price Volatility Erosion",
+      "opportunity_statement": "Users who use wishlists as a mechanism to delay purchase or compare prices experience a breakdown in trust and decision paralysis when prices increase or discounts are removed between the act of saving and the act of buying, leading to lost sales to competitors or forced full-price purchases.",
+      "underlying_uncertainty": "Whether the saved price/discount will remain valid when the user is ready to commit to the purchase.",
+      "behavioral_consequence": "Users switch to competing platforms to buy the same item at a lower price, purchase at full price while requesting retroactive discounts, or express frustration that undermines platform trust.",
+      "classification": "Direct Wishlist/Purchase Evidence",
+      "evidence_strength_category": "Direct",
+      "supporting_record_ids": [
+        "play_28a0f06e-325c-4155-8842-961494aac709",
+        "play_daa4e0bd-4e6b-4b3e-b16e-82b25ea21b67",
+        "play_280df4b9-4f2e-43f6-b1ee-f3fc190a9c4a",
+        "play_8246715e-e392-4403-9602-ce875bb089b7"
+      ],
+      "representative_quotes": [
+        "I wishlisted a few to check later. Later when I checked the app to buy I found they had more than doubled it's price. So I went to a competing store and found the same product at less than the original price in Myntra and so bought from there.",
+        "I put it in wishlist to place the order in later stage. But I shocked to see when I was intending to place the order for this item, you remove the discount and put it in full rate.",
+        "During Festive Sale Offer, price skyrocket of same product. Than what's the meaning of waiting till sale, if I have to pay overprice of my wishlisted items.",
+        "I had the other option in mind in my wishlist. Later the app asked me to become an \"Insider\" and the product in my wishlist was hiked by almost 20% even though the official crocs site still had discounted price"
+      ],
+      "supporting_record_count": 4,
+      "frequency_score": 0.0714,
+      "severity_avg": 1.75,
+      "workaround_rate": 0.0,
+      "metric_relevance": "Low",
+      "evidence_strength": "Single-source",
+      "composite_score": 0.0647
+    }
+  ],
+  "reviews_over_time": {
+    "labels": [
+      "2025-09",
+      "2025-10",
+      "2025-11",
+      "2025-12",
+      "2026-01",
+      "2026-02",
+      "2026-03",
+      "2026-04",
+      "2026-05",
+      "2026-06",
+      "2026-07",
+      "2026-08"
+    ],
+    "values": [
+      14076,
+      13482,
+      13002,
+      15961,
+      14146,
+      15127,
+      20883,
+      13887,
+      13969,
+      16624,
+      15766,
+      15096
+    ]
+  }
+}

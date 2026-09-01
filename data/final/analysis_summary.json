@@ -1,0 +1,15 @@
+{
+  "summary": {
+    "total_records": 3,
+    "uncertainty_frequencies": {},
+    "blocker_frequencies": {},
+    "user_action_frequencies": {},
+    "external_source_frequencies": {},
+    "outcome_distribution": {},
+    "signal_by_source": {}
+  },
+  "patterns": {
+    "top_cooccurrences": {},
+    "behavioral_chains": []
+  }
+}

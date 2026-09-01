@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra AI Discovery Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">🛍️</div>
+            <div>
+                <div class="brand-name">AI Discovery Engine</div>
+                <div class="brand-sub">Fashion Shopping Insights</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item active" href="#overview">🏠 Overview</a>
+            <a class="nav-item" href="#sources">🗄️ Data & Segments</a>
+            <a class="nav-item" href="#blockers">🛒 Blockers & Wishlist</a>
+            <a class="nav-item" href="#evidence">💬 Evidence Explorer</a>
+            <a class="nav-item" href="#behavior-insights">🧠 Behavior Insights</a>
+            <a class="nav-item" href="#opportunities">💡 Opportunity Areas</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP HEADER -->
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">AI Discovery Engine</h1>
+                <p class="page-sub">Myntra • Fashion Shopping Insights • Real Data</p>
+            </div>
+        </header>
+
+        <!-- KPI ROW -->
+        <section id="overview" class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-body">
+                    <span class="kpi-label">Total Records Collected</span>
+                    <strong class="kpi-num" id="kpi-raw">—</strong>
+                    <span class="kpi-note blue" id="kpi-sources-note">—</span>
+                </div>
+                <div class="kpi-ico blue">🗃️</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-body">
+                    <span class="kpi-label">After Cleaning</span>
+                    <strong class="kpi-num" id="kpi-clean">—</strong>
+                    <span class="kpi-note green" id="kpi-clean-pct">—</span>
+                </div>
+                <div class="kpi-ico green">✅</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-body">
+                    <span class="kpi-label">Negative Reviews</span>
+                    <strong class="kpi-num" id="kpi-neg">—</strong>
+                    <span class="kpi-note red" id="kpi-neg-pct">—</span>
+                </div>
+                <div class="kpi-ico red">⚠️</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-body">
+                    <span class="kpi-label">Positive Reviews</span>
+                    <strong class="kpi-num" id="kpi-pos">—</strong>
+                    <span class="kpi-note green" id="kpi-pos-pct">—</span>
+                </div>
+                <div class="kpi-ico teal">⭐</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-body">
+                    <span class="kpi-label">Opportunities Found</span>
+                    <strong class="kpi-num" id="kpi-opp">—</strong>
+                    <span class="kpi-note purple">AI-identified</span>
+                </div>
+                <div class="kpi-ico purple">💡</div>
+            </div>
+        </section>
+
+        <!-- ROW 1: SOURCE DONUT + RATING BAR + SENTIMENT PIE -->
+        <section id="sources" class="grid-3">
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Data Sources Breakdown</h3>
+                    <span class="badge">Raw data</span>
+                </div>
+                <div class="donut-layout">
+                    <div class="donut-wrap">
+                        <canvas id="sourceChart"></canvas>
+                        <div class="donut-center">
+                            <strong id="donut-total">—</strong>
+                            <span>Total</span>
+                        </div>
+                    </div>
+                    <div class="chart-legend" id="sourceLegend"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Rating Distribution</h3>
+                    <span class="badge">22,310 reviews</span>
+                </div>
+                <div class="chart-h">
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>User Segment (Behavior)</h3>
+                    <span class="badge">Wishlist Data</span>
+                </div>
+                <div class="donut-layout">
+                    <div class="donut-wrap">
+                        <canvas id="segmentChart"></canvas>
+                        <div class="donut-center">
+                            <strong id="segment-pct">—</strong>
+                            <span>Price Sensitive</span>
+                        </div>
+                    </div>
+                    <div class="chart-legend" id="segmentLegend"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 2: BLOCKERS TABLE & WISHLIST TABLE -->
+        <section id="blockers" class="grid-2">
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Top Purchase Blockers</h3>
+                </div>
+                <table class="data-table" id="blockers-table">
+                    <thead>
+                        <tr><th>#</th><th>Complaint Category</th><th>Mentions</th><th>%</th><th>Bar</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Why Users Add to Wishlist</h3>
+                </div>
+                <table class="data-table" id="relevant-table">
+                    <thead>
+                        <tr><th>#</th><th>Behavior / Hesitation</th><th>Mentions</th><th>%</th><th>Bar</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ROW 3: POSTPONED PURCHASE -->
+        <section id="postponed" class="grid-1">
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Why Purchase is Postponed</h3>
+                </div>
+                <table class="data-table" id="postponed-table">
+                    <thead>
+                        <tr><th>#</th><th>Delay Reason</th><th>Mentions</th><th>%</th><th>Bar</th></tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+
+
+        <!-- ROW 4: OUTSIDE INFO SEEKING & USER JOURNEYS -->
+        <section id="behavior-insights" class="grid-2">
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Where Users Seek External Info</h3>
+                    <span class="badge">Social Validation</span>
+                </div>
+                <div class="info-seeking-list" id="info-seeking-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>Common Wishlist Journeys</h3>
+                    <span class="badge">Behavior flows</span>
+                </div>
+                <div class="journey-container" id="journey-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ROW 5: OPPORTUNITIES (from real scored data) -->
+        <section id="opportunities" class="grid-1">
+            <div class="card">
+                <div class="card-hdr">
+                    <h3>AI-Discovered Opportunity Areas</h3>
+                </div>
+                <div id="opp-container" class="opp-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script src="app.js?v=2"></script>
+</body>
+</html>
