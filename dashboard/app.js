@@ -1,11 +1,33 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const t = '?t=' + Date.now();
-        const response = await fetch('analytics.json' + t);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        let d = null;
+        // Check if Firebase is initialized and available
+        if (typeof firebase !== 'undefined') {
+            try {
+                const db = firebase.firestore();
+                const docRef = db.collection("analytics").doc("latest");
+                const docSnap = await docRef.get();
+                if (docSnap.exists) {
+                    d = docSnap.data();
+                    console.log("Loaded data from Firebase Firestore");
+                } else {
+                    console.warn("No 'latest' document in 'analytics' collection. Falling back to local file.");
+                }
+            } catch (fbError) {
+                console.warn("Firebase fetch failed, falling back to local file.", fbError);
+            }
         }
-        const d = await response.json();
+        
+        // Fallback to local file if Firebase fails or is not available
+        if (!d) {
+            const t = '?t=' + Date.now();
+            const response = await fetch('analytics.json' + t);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            d = await response.json();
+            console.log("Loaded data from local analytics.json");
+        }
 
         // ── KPIs ───────────────────────────────────────────────────────────
         const ps = d.pipeline_summary;
@@ -74,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // ── USER SEGMENT DONUT ────────────────────────────────────────────────
         const segs = d.user_segments || [];
-        const segColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
+        const segColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444', '#ec4899', '#14b8a6', '#f97316'];
         const segLabels = segs.map(s => s.name);
         const segValues = segs.map(s => s.count);
         
@@ -193,6 +215,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p><code>python main.py --from-phase 4</code></p>
                 </div>`;
         } else {
+            // Use the order exactly as provided in analytics.json
+
             opps.forEach(opp => {
                 const relLabel = opp.metric_relevance ?? opp.scores?.metric_relevance ?? 'Medium';
                 
@@ -204,9 +228,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 let sev = opp.scores?.severity ?? opp.severity_avg ?? 0;
                 if (sev <= 5) sev = sev * 2; // e.g. 2.5/5 -> 5/10
                 
-                let wk = opp.scores?.workaround ?? opp.workaround_rate ?? 0;
-                if (wk <= 1) wk = wk * 10; // e.g. 0.5 -> 5/10
-
                 let relScore = 5.0;
                 if (relLabel === 'High') relScore = 9.0;
                 else if (relLabel === 'Medium') relScore = 6.0;
@@ -232,7 +253,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="opp-scores">
                             ${scoreRow10('Frequency', freq, '#3b82f6')}
                             ${scoreRow10('Severity', sev, '#ef4444')}
-                            ${scoreRow10('Workaround', wk, '#f59e0b')}
                             ${scoreRow10('Metric Relevance', relScore, '#8b5cf6')}
                             ${scoreRow10('Evidence', evScore, '#10b981')}
                         </div>
