@@ -400,19 +400,23 @@ body { background: var(--bg); color: var(--text); }
     }
 }
 
-/* ── MODAL & BUTTON ──────────────────────────────────────────────────────── */
+/* ── BUTTON ──────────────────────────────────────────────────────── */
 .kpi-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.65rem;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 0.2rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--text);
+    color: #1e40af;
     cursor: pointer;
     transition: all 0.15s;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
 }
-.kpi-btn:hover { background: #e2e8f0; }
+.kpi-btn:hover { background: #dbeafe; transform: translateY(-1px); }
 
 .modal-overlay {
     position: fixed; inset: 0;
