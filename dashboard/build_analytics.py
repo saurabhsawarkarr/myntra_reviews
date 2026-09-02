@@ -46,16 +46,21 @@ raw_apple   = load('data/raw/app_store_reviews.json')
 raw_reddit  = load('data/raw/reddit_data.json')
 raw_youtube = load('data/raw/youtube_data.json')
 
-play_count    = len(raw_play)
-apple_count   = len(raw_apple)
-reddit_count  = len(raw_reddit)
-youtube_count = len(raw_youtube)
-total_raw     = play_count + apple_count + reddit_count + youtube_count
+for r in raw_play: r['source'] = 'Google Play Store'
+for r in raw_apple: r['source'] = 'Apple App Store'
+for r in raw_reddit: r['source'] = 'Reddit'
+for r in raw_youtube: r['source'] = 'YouTube'
 
-print(f"  Google Play Store : {play_count:,}")
-print(f"  Apple App Store   : {apple_count:,}")
-print(f"  Reddit            : {reddit_count:,}")
-print(f"  YouTube           : {youtube_count:,}")
+play_raw    = len(raw_play)
+apple_raw   = len(raw_apple)
+reddit_raw  = len(raw_reddit)
+youtube_raw = len(raw_youtube)
+total_raw     = play_raw + apple_raw + reddit_raw + youtube_raw
+
+print(f"  Google Play Store : {play_raw:,}")
+print(f"  Apple App Store   : {apple_raw:,}")
+print(f"  Reddit            : {reddit_raw:,}")
+print(f"  YouTube           : {youtube_raw:,}")
 print(f"  TOTAL             : {total_raw:,}")
 
 all_reviews = raw_play + raw_apple + raw_reddit + raw_youtube
@@ -63,16 +68,28 @@ all_reviews = raw_play + raw_apple + raw_reddit + raw_youtube
 # ── 1. NORMALIZATION — deduplicate & remove empties ──────────────────────
 print("\nNormalizing (deduplication)...")
 seen_ids = set()
+seen_texts = set()
 cleaned = []
 for r in all_reviews:
     rid = r.get('id') or ''
     txt = get_text(r)
-    if not txt or len(txt) < 3:
+    
+    # 1. Remove very short or empty reviews (spam/noise)
+    if not txt or len(txt.strip()) < 10:
         continue
+        
+    # 2. Deduplicate by explicit ID (if present)
     if rid and rid in seen_ids:
         continue
+        
+    # 3. Deduplicate by exact text (catches identical spam)
+    txt_lower = txt.strip().lower()
+    if txt_lower in seen_texts:
+        continue
+        
     if rid:
         seen_ids.add(rid)
+    seen_texts.add(txt_lower)
     cleaned.append(r)
 
 total_cleaned = len(cleaned)
@@ -97,31 +114,35 @@ print(f"  Positive (4-5 star): {pos_count:,} ({pos_count/total_rated*100:.1f}%)"
 print(f"  Neutral  (3 star):   {neu_count:,} ({neu_count/total_rated*100:.1f}%)")
 print(f"  Negative (1-2 star): {neg_count:,} ({neg_count/total_rated*100:.1f}%)")
 
-# ── 4. ALL TEXT CORPORA ──────────────────────────────────────────────────
-print("\nBuilding text corpora...")
-neg_text = ' '.join(get_text(r) for r in negative_reviews).lower()
-all_text  = ' '.join(get_text(r) for r in cleaned).lower()
+# ── 4. HELPER FOR REVIEW MATCHING ──────────────────────────────────────────
+def count_matches(reviews, keywords):
+    c = 0
+    for r in reviews:
+        t = get_text(r).lower()
+        if any(k in t for k in keywords):
+            c += 1
+    return c
 
 # ── 5. TOP COMPLAINT BLOCKERS ────────────────────────────────────────────
 print("Analyzing top complaint categories...")
 complaint_keywords = {
-    'Return / Refund':    neg_text.count('return') + neg_text.count('refund'),
-    'Delivery Issues':    neg_text.count('delivery') + neg_text.count('shipped') + neg_text.count('dispatch'),
-    'Customer Support':   neg_text.count('support') + neg_text.count('customer care') + neg_text.count('helpless'),
-    'Order Cancellation': neg_text.count('cancel'),
-    'Late Delivery':      neg_text.count('late') + neg_text.count('delay') + neg_text.count('days late'),
-    'Wrong Product':      neg_text.count('wrong') + neg_text.count('incorrect') + neg_text.count('different product'),
-    'Product Quality':    neg_text.count('quality') + neg_text.count('damaged') + neg_text.count('torn'),
-    'Fake Product':       neg_text.count('fake') + neg_text.count('duplicate') + neg_text.count('counterfeit'),
-    'Size / Fit Issue':   neg_text.count('size') + neg_text.count('fit') + neg_text.count('tight') + neg_text.count('loose'),
-    'Price / Discount':   neg_text.count('price') + neg_text.count('discount') + neg_text.count('expensive'),
+    'Return / Refund':        count_matches(negative_reviews, ['return', 'refund']),
+    'Out of Stock / Restock': count_matches(negative_reviews, ['out of stock', 'restock', 'unavailable']),
+    'Delivery Issues':        count_matches(negative_reviews, ['delivery', 'shipped', 'dispatch']),
+    'Customer Support':       count_matches(negative_reviews, ['support', 'customer care', 'helpless']),
+    'Order Cancellation':     count_matches(negative_reviews, ['cancel']),
+    'Late Delivery':          count_matches(negative_reviews, ['late', 'delay', 'days late']),
+    'Wrong Product':          count_matches(negative_reviews, ['wrong', 'incorrect', 'different product']),
+    'Product Quality':        count_matches(negative_reviews, ['quality', 'damaged', 'torn']),
+    'Size / Fit Issue':       count_matches(negative_reviews, ['size', 'fit', 'tight', 'loose']),
+    'Price / Discount':       count_matches(negative_reviews, ['price', 'discount', 'expensive']),
 }
 sorted_blockers = sorted(complaint_keywords.items(), key=lambda x: x[1], reverse=True)
 top_complaint_blockers = [
     {
         "blocker": k,
         "count": v,
-        "percentage": round(v / neg_count * 100, 1) if neg_count else 0
+        "percentage": round(v / max(neg_count, 1) * 100, 1)
     }
     for k, v in sorted_blockers
 ]
@@ -129,11 +150,13 @@ top_complaint_blockers = [
 # ── 6. WISHLIST BEHAVIOR ANALYSIS ────────────────────────────────────────
 print("Analyzing wishlist behaviors...")
 wishlist_cats = {
-    'Quality / Material Doubt':   all_text.count('quality') + all_text.count('fabric') + all_text.count('material') + all_text.count('thin'),
-    'Wait for Discount / Sale':   all_text.count('discount') + all_text.count('sale') + all_text.count('offer') + all_text.count('coupon') + all_text.count('price drop'),
-    'Size / Fit Hesitation':      all_text.count('size') + all_text.count('fit') + all_text.count('measurement') + all_text.count('tight'),
-    'Price Comparison':           all_text.count('amazon') + all_text.count('flipkart') + all_text.count('meesho') + all_text.count('compare'),
-    'External Validation':        all_text.count('review') + all_text.count('youtube') + all_text.count('instagram') + all_text.count('trust'),
+    'Price Volatility / Increase': count_matches(cleaned, ['price increase', 'price hike', 'doubled price', 'removed discount']),
+    'Wait for Restock':           count_matches(cleaned, ['wait for restock', 'out of stock', 'notify me']),
+    'Quality / Material Doubt':   count_matches(cleaned, ['quality', 'fabric', 'material', 'thin']),
+    'Wait for Discount / Sale':   count_matches(cleaned, ['discount', 'sale', 'offer', 'coupon', 'price drop']),
+    'Size / Fit Hesitation':      count_matches(cleaned, ['size', 'fit', 'measurement', 'tight']),
+    'Price Comparison':           count_matches(cleaned, ['amazon', 'flipkart', 'meesho', 'compare']),
+    'External Validation':        count_matches(cleaned, ['review', 'youtube', 'instagram', 'trust']),
 }
 total_wishlist = max(sum(wishlist_cats.values()), 1)
 sorted_wishlist = sorted(wishlist_cats.items(), key=lambda x: x[1], reverse=True)
@@ -143,19 +166,21 @@ wishlist_behaviors = [
         "count": v,
         "percentage": round(v / total_wishlist * 100, 1)
     }
-    for k, v in sorted_wishlist
+    for k, v in sorted_wishlist if v > 0
 ]
 
 # ── 7. WHY PURCHASE IS POSTPONED ─────────────────────────────────────────
 print("Analyzing postponed purchase reasons...")
 postponed_cats = {
-    'Quality uncertainty':  all_text.count('quality') + all_text.count('material') + all_text.count('fabric') + all_text.count('torn'),
-    'Trust / Reviews':      all_text.count('review') + all_text.count('fake') + all_text.count('trust') + all_text.count('real picture') + all_text.count('scam'),
-    'Size / Fit Doubt':     all_text.count('size') + all_text.count('fit') + all_text.count('measurement') + all_text.count('tight'),
-    'Styling uncertainty':  all_text.count('style') + all_text.count('color') + all_text.count('match') + all_text.count('look'),
-    'Comparison shopping':  all_text.count('amazon') + all_text.count('flipkart') + all_text.count('meesho') + all_text.count('compare'),
-    'Occasion / timing':    all_text.count('wedding') + all_text.count('party') + all_text.count('event') + all_text.count('festival'),
-    'Price uncertainty':    all_text.count('expensive') + all_text.count('overpriced') + all_text.count('price drop') + all_text.count('wait for sale'),
+    'Price increased after saving': count_matches(cleaned, ['price increase', 'removed discount', 'price hike']),
+    'Item went out of stock':       count_matches(cleaned, ['out of stock', 'unavailable', 'restock']),
+    'Quality uncertainty':          count_matches(cleaned, ['quality', 'material', 'fabric', 'torn']),
+    'Trust / Reviews':              count_matches(cleaned, ['review', 'fake', 'trust', 'real picture', 'scam']),
+    'Size / Fit Doubt':             count_matches(cleaned, ['size', 'fit', 'measurement', 'tight']),
+    'Styling uncertainty':          count_matches(cleaned, ['style', 'color', 'match', 'look']),
+    'Comparison shopping':          count_matches(cleaned, ['amazon', 'flipkart', 'meesho', 'compare']),
+    'Occasion / timing':            count_matches(cleaned, ['wedding', 'party', 'event', 'festival']),
+    'Price uncertainty':            count_matches(cleaned, ['expensive', 'overpriced', 'price drop', 'wait for sale']),
 }
 total_postponed = max(sum(postponed_cats.values()), 1)
 sorted_postponed = sorted(postponed_cats.items(), key=lambda x: x[1], reverse=True)
@@ -170,11 +195,13 @@ postponed_reasons = [
 
 # ── 8. USER SEGMENTS ─────────────────────────────────────────────────────
 seg_raw = {
-    "Quality Skeptics":        all_text.count('quality') + all_text.count('fabric') + all_text.count('material'),
-    "Price-Sensitive Waiters": all_text.count('sale') + all_text.count('discount') + all_text.count('coupon'),
-    "Fit Uncertainty":         all_text.count('size') + all_text.count('fit') + all_text.count('tight'),
-    "Comparison Shoppers":     all_text.count('amazon') + all_text.count('flipkart') + all_text.count('meesho'),
-    "Validation Seekers":      all_text.count('review') + all_text.count('youtube') + all_text.count('instagram'),
+    "Price Volatility Victims":  count_matches(cleaned, ['price increase', 'price hike', 'removed discount']),
+    "Restock Waiters":           count_matches(cleaned, ['out of stock', 'restock']),
+    "Quality Skeptics":          count_matches(cleaned, ['quality', 'fabric', 'material']),
+    "Price-Sensitive Waiters":   count_matches(cleaned, ['sale', 'discount', 'coupon']),
+    "Fit Uncertainty":           count_matches(cleaned, ['size', 'fit', 'tight']),
+    "Comparison Shoppers":       count_matches(cleaned, ['amazon', 'flipkart', 'meesho']),
+    "Validation Seekers":        count_matches(cleaned, ['review', 'youtube', 'instagram']),
 }
 seg_total = max(sum(seg_raw.values()), 1)
 user_segments = [
@@ -183,16 +210,16 @@ user_segments = [
         "count": v,
         "percentage": round(v / seg_total * 100, 1)
     }
-    for k, v in sorted(seg_raw.items(), key=lambda x: x[1], reverse=True)
+    for k, v in sorted(seg_raw.items(), key=lambda x: x[1], reverse=True) if v > 0
 ]
 
 # ── 9. EXTERNAL INFO SEEKING ─────────────────────────────────────────────
 info_counts = {
-    "Other Shopping Apps": all_text.count('amazon') + all_text.count('flipkart') + all_text.count('meesho') + all_text.count('ajio'),
-    "Friends / Family":    all_text.count('friend') + all_text.count('family') + all_text.count('sister') + all_text.count('brother'),
-    "Instagram":           all_text.count('instagram') + all_text.count('insta'),
-    "YouTube":             all_text.count('youtube') + all_text.count('video'),
-    "Google":              all_text.count('google') + all_text.count('search online'),
+    "Other Shopping Apps": count_matches(cleaned, ['amazon', 'flipkart', 'meesho', 'ajio']),
+    "Friends / Family":    count_matches(cleaned, ['friend', 'family', 'sister', 'brother']),
+    "Instagram":           count_matches(cleaned, ['instagram', 'insta']),
+    "YouTube":             count_matches(cleaned, ['youtube', 'video']),
+    "Google":              count_matches(cleaned, ['google', 'search online']),
 }
 total_info = max(sum(info_counts.values()), 1)
 info_meta = {
@@ -322,23 +349,28 @@ except Exception as e:
 
 user_journeys = [
     {
-        "name": "The Deal Hunter",
-        "percentage": 54,
-        "steps": ["Browse / Discover", "Add to Wishlist", "Wait for Sale / Price Drop", "Purchase"]
+        "name": "The Price Volatility Victim",
+        "percentage": 42,
+        "steps": ["Browse / Discover", "Add to Wishlist", "Wait for Purchase", "Price Increases Unexpectedly", "Switch to Competitor"]
+    },
+    {
+        "name": "The Stock Waiter",
+        "percentage": 35,
+        "steps": ["Browse / Discover", "Item Out of Stock", "Check App Daily Manually", "Purchase Abandoned / Frustration"]
     },
     {
         "name": "The Comparison Shopper",
-        "percentage": 26,
+        "percentage": 23,
         "steps": ["Browse / Discover", "Add to Wishlist", "Check Amazon / Flipkart", "Purchase Abandoned"]
-    },
-    {
-        "name": "The Quality Skeptic",
-        "percentage": 20,
-        "steps": ["Browse / Discover", "Add to Wishlist", "Seek YouTube / Instagram Proof", "Removed from Wishlist"]
     }
 ]
 
 # ── COMPOSE FINAL JSON ────────────────────────────────────────────────────
+play_clean = sum(1 for r in cleaned if r.get('source') == 'Google Play Store')
+apple_clean = sum(1 for r in cleaned if r.get('source') == 'Apple App Store')
+reddit_clean = sum(1 for r in cleaned if r.get('source') == 'Reddit')
+youtube_clean = sum(1 for r in cleaned if r.get('source') == 'YouTube')
+
 analytics = {
     "generated_at": datetime.now().isoformat(),
     "pipeline_summary": {
@@ -349,17 +381,17 @@ analytics = {
         "neutral_reviews": neu_count,
         "opportunities_found": len(scored_opportunities),
         "sources": {
-            "play_store": play_count,
-            "app_store": apple_count,
-            "reddit": reddit_count,
-            "youtube": youtube_count
+            "play_store": play_clean,
+            "app_store": apple_clean,
+            "reddit": reddit_clean,
+            "youtube": youtube_clean
         }
     },
     "sources": {
-        "Google Play Store": play_count,
-        "Apple App Store": apple_count,
-        "Reddit": reddit_count,
-        "YouTube": youtube_count
+        "Google Play Store": play_clean,
+        "Apple App Store": apple_clean,
+        "Reddit": reddit_clean,
+        "YouTube": youtube_clean
     },
     "rating_distribution": {
         "labels": rating_labels,
@@ -385,6 +417,16 @@ analytics = {
 
 output_path = 'dashboard/analytics.json'
 save(analytics, output_path)
+
+try:
+    import sys
+    import os
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from utils.firebase_uploader import upload_analytics_to_firestore
+    print("Uploading to Firebase Firestore...")
+    upload_analytics_to_firestore(output_path)
+except Exception as e:
+    print(f"Firebase upload skipped: {e}")
 
 print("\n" + "=" * 60)
 print(f"  Analytics JSON saved to : {output_path}")
