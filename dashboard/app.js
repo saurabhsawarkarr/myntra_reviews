@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', async () => {
             modal.style.display = 'flex';
             if(tbody.innerHTML.trim() === '<!-- Populated by JS -->') {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading sample data...</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading data...</td></tr>';
                 try {
                     const res = await fetch('cleaned_sample.json?t=' + Date.now());
                     const data = await res.json();
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </tr>
                     `).join('');
                 } catch(e) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">Error loading sample data.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">Error loading data.</td></tr>';
                 }
             }
         });
