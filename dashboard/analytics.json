@@ -286,6 +286,33 @@
   ],
   "opportunities": [
     {
+      "name": "Wishlist Price Volatility Erosion",
+      "opportunity_statement": "Users who use wishlists as a mechanism to delay purchase or compare prices experience a breakdown in trust and decision paralysis when prices increase or discounts are removed between the act of saving and the act of buying, leading to lost sales to competitors or forced full-price purchases.",
+      "underlying_uncertainty": "Whether the saved price/discount will remain valid when the user is ready to commit to the purchase.",
+      "behavioral_consequence": "Users switch to competing platforms to buy the same item at a lower price, purchase at full price while requesting retroactive discounts, or express frustration that undermines platform trust.",
+      "classification": "Direct Wishlist/Purchase Evidence",
+      "evidence_strength_category": "Direct",
+      "supporting_record_ids": [
+        "play_28a0f06e-325c-4155-8842-961494aac709",
+        "play_daa4e0bd-4e6b-4b3e-b16e-82b25ea21b67",
+        "play_280df4b9-4f2e-43f6-b1ee-f3fc190a9c4a",
+        "play_8246715e-e392-4403-9602-ce875bb089b7"
+      ],
+      "representative_quotes": [
+        "I wishlisted a few to check later. Later when I checked the app to buy I found they had more than doubled it's price. So I went to a competing store and found the same product at less than the original price in Myntra and so bought from there.",
+        "I put it in wishlist to place the order in later stage. But I shocked to see when I was intending to place the order for this item, you remove the discount and put it in full rate.",
+        "During Festive Sale Offer, price skyrocket of same product. Than what's the meaning of waiting till sale, if I have to pay overprice of my wishlisted items.",
+        "I had the other option in mind in my wishlist. Later the app asked me to become an \"Insider\" and the product in my wishlist was hiked by almost 20% even though the official crocs site still had discounted price"
+      ],
+      "supporting_record_count": 4,
+      "frequency_score": 0.0714,
+      "severity_avg": 1.75,
+      "workaround_rate": 0.0,
+      "metric_relevance": "High",
+      "evidence_strength": "Single-source",
+      "composite_score": 0.0647
+    },
+    {
       "name": "Sizing Inconsistency Anxiety",
       "opportunity_statement": "Users experience high cognitive load and purchase hesitation due to inconsistent sizing charts across different brands and categories, leading to multiple size orders, high return rates, and abandoned carts.",
       "underlying_uncertainty": "Whether the selected size will actually fit given the specific brand's cut, the garment's material, and the user's unique body measurements.",
@@ -329,33 +356,6 @@
       "metric_relevance": "Low",
       "evidence_strength": "Single-source",
       "composite_score": 0.067
-    },
-    {
-      "name": "Wishlist Price Volatility Erosion",
-      "opportunity_statement": "Users who use wishlists as a mechanism to delay purchase or compare prices experience a breakdown in trust and decision paralysis when prices increase or discounts are removed between the act of saving and the act of buying, leading to lost sales to competitors or forced full-price purchases.",
-      "underlying_uncertainty": "Whether the saved price/discount will remain valid when the user is ready to commit to the purchase.",
-      "behavioral_consequence": "Users switch to competing platforms to buy the same item at a lower price, purchase at full price while requesting retroactive discounts, or express frustration that undermines platform trust.",
-      "classification": "Direct Wishlist/Purchase Evidence",
-      "evidence_strength_category": "Direct",
-      "supporting_record_ids": [
-        "play_28a0f06e-325c-4155-8842-961494aac709",
-        "play_daa4e0bd-4e6b-4b3e-b16e-82b25ea21b67",
-        "play_280df4b9-4f2e-43f6-b1ee-f3fc190a9c4a",
-        "play_8246715e-e392-4403-9602-ce875bb089b7"
-      ],
-      "representative_quotes": [
-        "I wishlisted a few to check later. Later when I checked the app to buy I found they had more than doubled it's price. So I went to a competing store and found the same product at less than the original price in Myntra and so bought from there.",
-        "I put it in wishlist to place the order in later stage. But I shocked to see when I was intending to place the order for this item, you remove the discount and put it in full rate.",
-        "During Festive Sale Offer, price skyrocket of same product. Than what's the meaning of waiting till sale, if I have to pay overprice of my wishlisted items.",
-        "I had the other option in mind in my wishlist. Later the app asked me to become an \"Insider\" and the product in my wishlist was hiked by almost 20% even though the official crocs site still had discounted price"
-      ],
-      "supporting_record_count": 4,
-      "frequency_score": 0.0714,
-      "severity_avg": 1.75,
-      "workaround_rate": 0.0,
-      "metric_relevance": "High",
-      "evidence_strength": "Single-source",
-      "composite_score": 0.0647
     }
   ],
   "reviews_over_time": {
