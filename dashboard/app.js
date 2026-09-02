@@ -244,11 +244,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 const quotes= opp.representative_quotes || [];
                 const quotesHTML = quotes.slice(0, 3).map(q => `<div class="opp-quote">${q}</div>`).join('');
+                
+                let icon = '💡';
+                const nameLower = opp.name.toLowerCase();
+                if (nameLower.includes('size') || nameLower.includes('fit') || nameLower.includes('sizing')) icon = '📏';
+                else if (nameLower.includes('price') || nameLower.includes('cost') || nameLower.includes('discount') || nameLower.includes('volatility')) icon = '📉';
+                else if (nameLower.includes('stock') || nameLower.includes('availability') || nameLower.includes('wait')) icon = '📦';
 
                 oppContainer.innerHTML += `
                     <div class="opp-card">
                         <div>
-                            <div class="opp-name">${opp.name}</div>
+                            <div class="opp-name">${icon} ${opp.name}</div>
                             <div class="opp-desc">${opp.opportunity_statement}</div>
                             <div style="margin-top:0.75rem"><span class="opp-badge ${relLabel.toLowerCase()}">${relLabel} Priority</span></div>
                             ${quotesHTML.length ? `<div class="opp-quotes" style="margin-top:1rem">${quotesHTML}</div>` : ''}
