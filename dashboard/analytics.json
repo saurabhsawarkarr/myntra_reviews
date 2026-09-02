@@ -334,7 +334,11 @@
       "workaround_rate": 0.75,
       "metric_relevance": "High",
       "evidence_strength": "Multi-source",
-      "composite_score": 0.134
+      "composite_score": 0.134,
+      "frequency_score_override": 6.5,
+      "severity_score_override": 3.8,
+      "metric_relevance_score_override": 7.0,
+      "evidence_score_override": 4.0
     },
     {
       "name": "Stock Unavailability Waiting Loop",

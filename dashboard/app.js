@@ -220,24 +220,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             opps.forEach(opp => {
                 const relLabel = opp.metric_relevance ?? opp.scores?.metric_relevance ?? 'Medium';
                 
-                // Convert raw values to 0-10 scale if they are not already
-                let freq = opp.scores?.frequency ?? opp.frequency_score ?? 0;
-                if (freq <= 1) freq = freq * 100; // e.g. 0.071 -> 7.1 out of 10
+                let freq = opp.frequency_score_override ?? opp.scores?.frequency ?? opp.frequency_score ?? 0;
+                if (freq <= 1 && opp.frequency_score_override === undefined) freq = freq * 100; // e.g. 0.071 -> 7.1 out of 10
                 if (freq > 10) freq = 10; // Cap at 10
                 
-                let sev = opp.scores?.severity ?? opp.severity_avg ?? 0;
-                if (sev <= 5) sev = sev * 2; // e.g. 2.5/5 -> 5/10
+                let sev = opp.severity_score_override ?? opp.scores?.severity ?? opp.severity_avg ?? 0;
+                if (sev <= 5 && opp.severity_score_override === undefined) sev = sev * 2; // e.g. 2.5/5 -> 5/10
                 
-                let relScore = 5.0;
-                if (relLabel === 'High') relScore = 9.0;
-                else if (relLabel === 'Medium') relScore = 6.0;
-                else if (relLabel === 'Low') relScore = 3.0;
+                let relScore = opp.metric_relevance_score_override ?? 5.0;
+                if (opp.metric_relevance_score_override === undefined) {
+                    if (relLabel === 'High') relScore = 9.0;
+                    else if (relLabel === 'Medium') relScore = 6.0;
+                    else if (relLabel === 'Low') relScore = 3.0;
+                }
                 
-                let evScore = 5.0;
-                const evLabel = opp.evidence_strength ?? opp.scores?.evidence_strength ?? '';
-                if (evLabel === 'Cross-source') evScore = 8.5;
-                else if (evLabel === 'Multi-source') evScore = 7.0;
-                else if (evLabel === 'Single-source') evScore = 4.0;
+                let evScore = opp.evidence_score_override ?? 5.0;
+                if (opp.evidence_score_override === undefined) {
+                    const evLabel = opp.evidence_strength ?? opp.scores?.evidence_strength ?? '';
+                    if (evLabel === 'Cross-source') evScore = 8.5;
+                    else if (evLabel === 'Multi-source') evScore = 7.0;
+                    else if (evLabel === 'Single-source') evScore = 4.0;
+                }
                 
                 const quotes= opp.representative_quotes || [];
                 const quotesHTML = quotes.slice(0, 3).map(q => `<div class="opp-quote">${q}</div>`).join('');
