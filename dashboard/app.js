@@ -274,40 +274,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Modal Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('viewDataBtn');
-    const modal = document.getElementById('dataModal');
-    const closeBtn = document.getElementById('closeModalBtn');
-    const tbody = document.getElementById('modal-tbody');
-
-    if(btn) {
-        btn.addEventListener('click', async () => {
-            modal.style.display = 'flex';
-            if(tbody.innerHTML.trim() === '<!-- Populated by JS -->') {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading data...</td></tr>';
-                try {
-                    const res = await fetch('cleaned_sample.json?t=' + Date.now());
-                    const data = await res.json();
-                    tbody.innerHTML = data.map(r => `
-                        <tr>
-                            <td style="white-space:nowrap;">${r.date || '-'}</td>
-                            <td>${r.rating ? r.rating + '★' : '-'}</td>
-                            <td><span class="badge">${r.source}</span></td>
-                            <td style="color:#334155;">${r.text}</td>
-                        </tr>
-                    `).join('');
-                } catch(e) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">Error loading data.</td></tr>';
-                }
-            }
-        });
-    }
-
-    if(closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
-});
-
 // Helper to render a score bar row out of 10
 function scoreRow10(label, val, color) {
     if (val === 'Insufficient evidence' || val === null || val === undefined) {
