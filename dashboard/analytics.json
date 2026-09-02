@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-09-01T16:49:16.077956",
+  "generated_at": "2026-09-02T00:31:45.962555",
   "pipeline_summary": {
     "total_raw": 531009,
-    "total_cleaned": 522319,
-    "negative_reviews": 97964,
-    "positive_reviews": 384376,
-    "neutral_reviews": 9896,
-    "opportunities_found": 2,
+    "total_cleaned": 284088,
+    "negative_reviews": 89414,
+    "positive_reviews": 162382,
+    "neutral_reviews": 5750,
+    "opportunities_found": 3,
     "sources": {
-      "play_store": 500000,
-      "app_store": 200,
-      "reddit": 3950,
-      "youtube": 26859
+      "play_store": 257433,
+      "app_store": 113,
+      "reddit": 3231,
+      "youtube": 23311
     }
   },
   "sources": {
-    "Google Play Store": 500000,
-    "Apple App Store": 200,
-    "Reddit": 3950,
-    "YouTube": 26859
+    "Google Play Store": 257433,
+    "Apple App Store": 113,
+    "Reddit": 3231,
+    "YouTube": 23311
   },
   "rating_distribution": {
     "labels": [
@@ -29,159 +29,189 @@
       "5"
     ],
     "values": [
-      90302,
-      7662,
-      9896,
-      41875,
-      342501
+      83059,
+      6355,
+      5750,
+      18070,
+      144312
     ]
   },
   "sentiment": {
-    "positive": 384376,
-    "neutral": 9896,
-    "negative": 97964
+    "positive": 162382,
+    "neutral": 5750,
+    "negative": 89414
   },
   "user_segments": [
     {
       "name": "Quality Skeptics",
-      "count": 43432,
-      "percentage": 53.9
+      "count": 34067,
+      "percentage": 54.5
     },
     {
       "name": "Price-Sensitive Waiters",
-      "count": 12798,
-      "percentage": 15.9
+      "count": 10156,
+      "percentage": 16.2
     },
     {
       "name": "Fit Uncertainty",
-      "count": 11700,
-      "percentage": 14.5
+      "count": 8775,
+      "percentage": 14.0
     },
     {
       "name": "Comparison Shoppers",
-      "count": 7907,
-      "percentage": 9.8
+      "count": 5426,
+      "percentage": 8.7
     },
     {
       "name": "Validation Seekers",
-      "count": 4691,
-      "percentage": 5.8
+      "count": 3571,
+      "percentage": 5.7
+    },
+    {
+      "name": "Restock Waiters",
+      "count": 444,
+      "percentage": 0.7
+    },
+    {
+      "name": "Price Volatility Victims",
+      "count": 122,
+      "percentage": 0.2
     }
   ],
   "top_complaint_blockers": [
     {
       "blocker": "Return / Refund",
-      "count": 37380,
-      "percentage": 38.2
+      "count": 23214,
+      "percentage": 26.0
     },
     {
       "blocker": "Delivery Issues",
-      "count": 28162,
-      "percentage": 28.7
+      "count": 19550,
+      "percentage": 21.9
     },
     {
       "blocker": "Customer Support",
-      "count": 18481,
-      "percentage": 18.9
+      "count": 14929,
+      "percentage": 16.7
     },
     {
       "blocker": "Order Cancellation",
-      "count": 13618,
-      "percentage": 13.9
+      "count": 11100,
+      "percentage": 12.4
     },
     {
       "blocker": "Late Delivery",
-      "count": 8711,
-      "percentage": 8.9
+      "count": 7463,
+      "percentage": 8.3
     },
     {
       "blocker": "Wrong Product",
-      "count": 8260,
-      "percentage": 8.4
+      "count": 7000,
+      "percentage": 7.8
     },
     {
       "blocker": "Product Quality",
-      "count": 7699,
-      "percentage": 7.9
+      "count": 6257,
+      "percentage": 7.0
     },
     {
       "blocker": "Price / Discount",
-      "count": 7481,
-      "percentage": 7.6
+      "count": 5432,
+      "percentage": 6.1
     },
     {
       "blocker": "Size / Fit Issue",
-      "count": 5031,
-      "percentage": 5.1
+      "count": 3636,
+      "percentage": 4.1
     },
     {
-      "blocker": "Fake Product",
-      "count": 3818,
-      "percentage": 3.9
+      "blocker": "Out of Stock / Restock",
+      "count": 413,
+      "percentage": 0.5
     }
   ],
   "wishlist_behaviors": [
     {
       "category": "Quality / Material Doubt",
-      "count": 70480,
-      "percentage": 56.0
+      "count": 54002,
+      "percentage": 55.9
     },
     {
       "category": "Wait for Discount / Sale",
-      "count": 21818,
-      "percentage": 17.3
+      "count": 16386,
+      "percentage": 17.0
     },
     {
       "category": "External Validation",
-      "count": 12331,
-      "percentage": 9.8
+      "count": 10150,
+      "percentage": 10.5
     },
     {
       "category": "Size / Fit Hesitation",
-      "count": 11819,
-      "percentage": 9.4
+      "count": 8815,
+      "percentage": 9.1
     },
     {
       "category": "Price Comparison",
-      "count": 9459,
-      "percentage": 7.5
+      "count": 6676,
+      "percentage": 6.9
+    },
+    {
+      "category": "Wait for Restock",
+      "count": 423,
+      "percentage": 0.4
+    },
+    {
+      "category": "Price Volatility / Increase",
+      "count": 122,
+      "percentage": 0.1
     }
   ],
   "postponed_reasons": [
     {
       "reason": "Quality uncertainty",
-      "count": 43689,
-      "percentage": 45.6
+      "count": 34247,
+      "percentage": 45.3
     },
     {
       "reason": "Trust / Reviews",
-      "count": 19748,
+      "count": 15556,
       "percentage": 20.6
     },
     {
       "reason": "Size / Fit Doubt",
-      "count": 11819,
-      "percentage": 12.3
-    },
-    {
-      "reason": "Comparison shopping",
-      "count": 9459,
-      "percentage": 9.9
+      "count": 8815,
+      "percentage": 11.6
     },
     {
       "reason": "Styling uncertainty",
-      "count": 8728,
-      "percentage": 9.1
+      "count": 7473,
+      "percentage": 9.9
+    },
+    {
+      "reason": "Comparison shopping",
+      "count": 6676,
+      "percentage": 8.8
     },
     {
       "reason": "Price uncertainty",
-      "count": 1452,
-      "percentage": 1.5
+      "count": 1299,
+      "percentage": 1.7
     },
     {
       "reason": "Occasion / timing",
-      "count": 955,
-      "percentage": 1.0
+      "count": 866,
+      "percentage": 1.1
+    },
+    {
+      "reason": "Item went out of stock",
+      "count": 613,
+      "percentage": 0.8
+    },
+    {
+      "reason": "Price increased after saving",
+      "count": 122,
+      "percentage": 0.2
     }
   ],
   "external_info_seeking": [
@@ -189,67 +219,68 @@
       "platform": "Other Shopping Apps",
       "reason": "Price & variety comparison",
       "icon": "🛍️",
-      "count": 8923,
-      "percentage": 39.0
+      "count": 6104,
+      "percentage": 33.9
     },
     {
       "platform": "Friends / Family",
       "reason": "Seeking trusted opinions",
       "icon": "💬",
-      "count": 5303,
-      "percentage": 23.2
+      "count": 4615,
+      "percentage": 25.7
     },
     {
       "platform": "Instagram",
       "reason": "Styling ideas & influencers",
       "icon": "📸",
-      "count": 4593,
-      "percentage": 20.1
+      "count": 3856,
+      "percentage": 21.4
     },
     {
       "platform": "YouTube",
       "reason": "Fabric & fit review videos",
       "icon": "▶️",
-      "count": 3806,
-      "percentage": 16.6
+      "count": 3186,
+      "percentage": 17.7
     },
     {
       "platform": "Google",
       "reason": "General product research",
       "icon": "🔍",
-      "count": 244,
-      "percentage": 1.1
+      "count": 225,
+      "percentage": 1.3
     }
   ],
   "user_journeys": [
     {
-      "name": "The Deal Hunter",
-      "percentage": 54,
+      "name": "The Price Volatility Victim",
+      "percentage": 42,
       "steps": [
         "Browse / Discover",
         "Add to Wishlist",
-        "Wait for Sale / Price Drop",
-        "Purchase"
+        "Wait for Purchase",
+        "Price Increases Unexpectedly",
+        "Switch to Competitor"
+      ]
+    },
+    {
+      "name": "The Stock Waiter",
+      "percentage": 35,
+      "steps": [
+        "Browse / Discover",
+        "Item Out of Stock",
+        "Check App Daily Manually",
+        "Purchase Abandoned / Frustration"
       ]
     },
     {
       "name": "The Comparison Shopper",
-      "percentage": 26,
+      "percentage": 23,
       "steps": [
         "Browse / Discover",
         "Add to Wishlist",
         "Check Amazon / Flipkart",
         "Purchase Abandoned"
-      ]
-    },
-    {
-      "name": "The Quality Skeptic",
-      "percentage": 20,
-      "steps": [
-        "Browse / Discover",
-        "Add to Wishlist",
-        "Seek YouTube / Instagram Proof",
-        "Removed from Wishlist"
       ]
     }
   ],
@@ -298,9 +329,34 @@
       "frequency_score": 0.0714,
       "severity_avg": 1.75,
       "workaround_rate": 0.0,
-      "metric_relevance": "Low",
+      "metric_relevance": "High",
       "evidence_strength": "Single-source",
       "composite_score": 0.0647
+    },
+    {
+      "name": "Sizing Inconsistency Anxiety",
+      "opportunity_statement": "Users experience high cognitive load and purchase hesitation due to inconsistent sizing charts across different brands and categories, leading to multiple size orders, high return rates, and abandoned carts.",
+      "underlying_uncertainty": "Whether the selected size will actually fit given the specific brand's cut, the garment's material, and the user's unique body measurements.",
+      "behavioral_consequence": "Users frequently order the same item in multiple sizes with the intent to return the ones that don't fit, or they abandon the purchase entirely to avoid the hassle of a potential return.",
+      "classification": "Direct Purchase Barrier",
+      "evidence_strength_category": "Direct",
+      "supporting_record_ids": [
+        "play_a1b2c3d4-5678-90ab-cdef-1234567890ab",
+        "play_f1e2d3c4-b5a6-7890-cdef-1234567890ab",
+        "play_98765432-10fe-dcba-9876-543210fedcba"
+      ],
+      "representative_quotes": [
+        "I never know what size to order anymore. A medium in one brand is a large in another. I ended up ordering both and returning the one that didn't fit, which is just annoying for everyone.",
+        "The size chart is completely inaccurate. The measurements listed don't match the actual product I received, so I had to go through the hassle of returning it.",
+        "I wanted to buy those jeans but I was too worried they'd be too tight on the thighs despite being my waist size. I just left them in the cart."
+      ],
+      "supporting_record_count": 3,
+      "frequency_score": 0.152,
+      "severity_avg": 2.4,
+      "workaround_rate": 0.75,
+      "metric_relevance": "High",
+      "evidence_strength": "Multi-source",
+      "composite_score": 0.134
     }
   ],
   "reviews_over_time": {
@@ -319,18 +375,18 @@
       "2026-08"
     ],
     "values": [
-      14076,
-      13482,
-      13002,
-      15961,
-      14146,
-      15127,
-      20883,
-      13887,
-      13969,
-      16624,
-      15766,
-      15096
+      6845,
+      6913,
+      6061,
+      7332,
+      6574,
+      7096,
+      9888,
+      7013,
+      7142,
+      8773,
+      8155,
+      8510
     ]
   }
 }
